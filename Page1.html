@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Happy Birthday Didi</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to right, #ffdde1, #bd169b);
+      font-family: 'Poppins', sans-serif;
+      overflow: hidden;
+      position: relative;
+      height: 100vh;
+    }
+
+    h1 {
+      font-size: 3em;
+      color: #fff;
+      text-shadow: 2px 2px 5px #00000070;
+      text-align: center;
+      margin-top: 60px;
+      position: relative;
+      z-index: 2;
+    }
+
+    button {
+      position: absolute;
+      padding: 15px 30px;
+      font-size: 1.3em;
+      border: none;
+      border-radius: 10px;
+      background: #ff4b2b;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+      left: 50%;
+      top: 60%;
+      transform: translate(-50%, -50%);
+    }
+
+    button:hover {
+      background: #ff416c;
+      transform: translate(-50%, -50%) scale(1.1);
+    }
+
+    .confetti {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      background-color: gold;
+      animation: fall 3s linear infinite;
+    }
+
+    @keyframes fall {
+      0% { transform: translateY(-100vh) rotate(0deg); }
+      100% { transform: translateY(100vh) rotate(720deg); }
+    }
+
+    /* Popup text */
+    #popupText {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      background: rgba(255, 255, 255, 0.9);
+      padding: 20px 40px;
+      border-radius: 15px;
+      font-size: 2em;
+      color: #ff1493;
+      box-shadow: 0 0 20px rgba(0,0,0,0.2);
+      display: none;
+      animation: fadeInOut 2s ease-in-out;
+      z-index: 10;
+    }
+
+    @keyframes fadeInOut {
+      0% { opacity: 0; transform: translate(-50%, -60%); }
+      20% { opacity: 1; transform: translate(-50%, -50%); }
+      80% { opacity: 1; }
+      100% { opacity: 0; transform: translate(-50%, -40%); }
+    }
+  </style>
+</head>
+<body>
+  <h1>🎂 Happy Birthday, Didi! 🎉</h1>
+  <button id="surpriseBtn">Click for Surprise 🎁</button>
+  <div id="popupText">Pakdo Pakdo Didi 😆</div>
+
+  <script>
+    let clickCount = 0;
+    const button = document.getElementById("surpriseBtn");
+    const header = document.querySelector("h1");
+    const popup = document.getElementById("popupText");
+
+    button.addEventListener("click", () => {
+      clickCount++;
+
+      if (clickCount <= 7) {
+        // Get heading's height and ensure button stays below it
+        const headerBottom = header.getBoundingClientRect().bottom;
+        const minY = headerBottom + 50; // safe gap below heading
+        const maxY = window.innerHeight - button.offsetHeight - 20;
+        const minX = 20;
+        const maxX = window.innerWidth - button.offsetWidth - 20;
+
+        const x = Math.random() * (maxX - minX) + minX;
+        const y = Math.random() * (maxY - minY) + minY;
+
+        button.style.left = `${x}px`;
+        button.style.top = `${y}px`;
+        button.style.transform = "none";
+      }
+
+      if (clickCount === 5) {
+        // Show "Pakdo Pakdo Didi"
+        popup.style.display = "block";
+        setTimeout(() => {
+          popup.style.display = "none";
+        }, 2000);
+      }
+
+      if (clickCount === 8) {
+        // Redirect to next page
+        window.location.href = "page2.html";
+      }
+    });
+
+    // Confetti Animation
+    for (let i = 0; i < 50; i++) {
+      let confetti = document.createElement("div");
+      confetti.classList.add("confetti");
+      confetti.style.left = Math.random() * window.innerWidth + "px";
+      confetti.style.backgroundColor = ["#ff0", "#ff1493", "#00f", "#0f0", "#ffa500"][Math.floor(Math.random()*5)];
+      confetti.style.animationDuration = (2 + Math.random() * 3) + "s";
+      document.body.appendChild(confetti);
+    }
+  </script>
+</body>
+</html>
